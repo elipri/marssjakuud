@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
           this.el.components["animation"].play();
         }
       });
-    },
+    }
   });
   document.getElementById("planeet").addEventListener("click", function () {
     mars.setAttribute("visible", "true");
