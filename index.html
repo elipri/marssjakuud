@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="et">
-<head>    
+  <head>
     <!-- AR.js, AFrame, Gestures -->
     <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -9,118 +9,101 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <!-- Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-    <script>      
-      window.onload = function () {
-          let mars = document.getElementById('planeetmarss');
-          let phobos = document.getElementById('kuuphobos');
-          let deimos = document.getElementById('kuudeimos');
-          document.getElementById('planeet').addEventListener('click', function () {
-              mars.setAttribute('visible','true');
-              phobos.setAttribute('visible','false');
-              deimos.setAttribute('visible','false');                   
-          });
-          document.getElementById('kuu1').addEventListener('click', function () {
-            if(!phobos.getAttribute('visible')) {
-              phobos.setAttribute('visible','true');               
-            }
-            mars.setAttribute('visible','false');
-            deimos.setAttribute('visible','false');
-          });
-          document.getElementById('kuu2').addEventListener('click', function () {
-              deimos.setAttribute('visible','true');
-              phobos.setAttribute('visible','false');
-              mars.setAttribute('visible','false');                   
-          });        
-      };
-  </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"
+    />
+    <!-- Custom Script -->
+    <script src="src/custom.js"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="styles/style.css" />
     <title>Marss ja tema kuud</title>
-    <style>
-      .buttons {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 5em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10;
-      }
-  
-      .button {
-        padding: 0.25em;
-        margin: 0 0.5em;
-        border-radius: 4px;
-        border: none;
-        background: white;
-        color: black;
-        width: auto;
-        height: 2em;
-      }
-  </style>
-</head>
-<body style="margin : 0px; overflow: hidden;">
+  </head>
+  <body>
+    <!-- Buttons -->
     <div class="buttons">
       <button id="planeet" class="button">MARSS</button>
       <button id="kuu1" class="button">PHOBOS</button>
       <button id="kuu2" class="button">DEIMOS</button>
-      <a href="#ex1" rel="modal:open"><button id="info" class="button">INFO</button></a>
+      <button id="paus" class="button">&nbsp;&#8214;&#5125;</button>
+      <a href="#ex1" rel="modal:open"
+        ><button id="info" class="button">INFO</button></a
+      >
     </div>
     <!-- Modal -->
     <div id="ex1" class="modal">
-      <p>Marss on Päikesesüsteemi neljas planeet. See asub Päikesest keskmiselt 227 900 000 km (1.5 aü) kaugusel ning Marsi keskmine kaugus maast jääb 55-400 mln km vahele. Hõreda atmosfääri ja punase pinnasega planeet on oma nime saanud Rooma sõjajumala järgi. Punaseks muudab Marsi pinnase rohke raudoksiidi sisaldus. </p>
-      <p>Marsil on kaks kuud: Phobos (kreeka keeles ‘hirm’) ja Deimos (‘õud’). Phobos ja Deimos avastati 1877. aastal. Phobos on kahest kuust suurem ning tiirleb Marsist vaid 6000 km kaugusel. Tema keskmine diameeter on 22 km. Deimose keskmine läbimõõt on 12.4 km.</p>
+      <p>
+        Marss on Päikesesüsteemi neljas planeet. See asub Päikesest keskmiselt
+        227 900 000 km (1.5 aü) kaugusel ning Marsi keskmine kaugus maast jääb
+        55-400 mln km vahele. Hõreda atmosfääri ja punase pinnasega planeet on
+        oma nime saanud Rooma sõjajumala järgi. Punaseks muudab Marsi pinnase
+        rohke raudoksiidi sisaldus.
+      </p>
+      <p>
+        Marsil on kaks kuud: Phobos (kreeka keeles ‘hirm’) ja Deimos (‘õud’).
+        Phobos ja Deimos avastati 1877. aastal. Phobos on kahest kuust suurem
+        ning tiirleb Marsist vaid 6000 km kaugusel. Tema keskmine diameeter on
+        22 km. Deimose keskmine läbimõõt on 12.4 km.
+      </p>
     </div>
-
-    <a-scene 
+    <!-- A-Frame Scene -->
+    <a-scene
       vr-mode-ui="enabled: false"
       embedded
-      arjs='sourceType: webcam; debugUIEnabled: false;'
+      arjs="sourceType: webcam; debugUIEnabled: false;"
       gesture-detector
-      loading-screen="dotsColor: lightblue; backgroundColor: black">
-        <a-assets timeout="5000">
-          <a-mixin 
-                id="animation" 
-                animation="property: rotation; dur: 5000; from: -90 0 0; to: -90 360 0; easing: linear; loop: true;">
-            </a-mixin>
-          <a-asset-item id="mars" src="src/Mars.glb"></a-asset-item>
-          <a-asset-item id="phobos" src="src/Phobos.glb"></a-asset-item>
-          <a-asset-item id="deimos" src="src/Deimos.glb"></a-asset-item>
-        </a-assets>
-        <a-marker preset="hiro" emitevents="true" smooth="true">
-            <a-entity
-                    id="planeetmarss"
-                    visible="true"
-                    position="0 0 0"
-                    scale="1 1 1"
-                    gltf-model="#mars"
-                    gesture-handler="min-scale: .25; max-scale: 10; rotationFactor: 5"
-                    light="type: ambient; color: #fff; intensity: 3;"
-                    mixin="animation"
-            ></a-entity>
-            <a-entity
-                    id="kuuphobos"
-                    visible="false"
-                    position="0 0 0"
-                    scale="1 1 1"
-                    gltf-model="#phobos"
-                    gesture-handler
-                    light="type: ambient; color: #fff; intensity: 3;"
-                    mixin="animation"
-            ></a-entity>
-            <a-entity
-                    id="kuudeimos"
-                    visible="false"
-                    position="0 0 0"
-                    scale="1 1 1"
-                    gltf-model="#deimos"
-                    gesture-handler
-                    light="type: ambient; color: #fff; intensity: 3;"
-                    mixin="animation"
-            ></a-entity>
-        </a-marker>
-        <a-entity camera></a-entity>
-      </a-scene>
-</body>
+      clickhandler
+      loading-screen="dotsColor: lightblue; backgroundColor: black"
+    >
+      <!-- Assets -->
+      <a-assets timeout="5000">
+        <a-mixin
+          id="animation"
+          animation="property: rotation; dur: 5000; from: -90 0 0; to: -90 360 0; easing: linear; loop: true;"
+        ></a-mixin>
+        <a-asset-item id="mars" src="assets/Mars.glb"></a-asset-item>
+        <a-asset-item id="phobos" src="assets/Phobos.glb"></a-asset-item>
+        <a-asset-item id="deimos" src="assets/Deimos.glb"></a-asset-item>
+      </a-assets>
+      <!-- Marker -->
+      <a-marker preset="hiro" emitevents="true" smooth="true">
+        <!-- Entities -->
+        <a-entity
+          id="planeetmarss"
+          visible="true"
+          position="0 0 0"
+          scale="1.5 1.5 1.5"
+          gltf-model="#mars"
+          animationhandler
+          gesture-handler="min-scale: .25; max-scale: 10; rotationFactor: 5"
+          light="type: ambient; color: #fff; intensity: 2;"
+          mixin="animation"
+        ></a-entity>
+        <a-entity
+          id="kuuphobos"
+          visible="false"
+          position="0 0 0"
+          scale="1 1 1"
+          gltf-model="#phobos"
+          animationhandler
+          gesture-handler
+          light="type: ambient; color: #fff; intensity: 3;"
+          mixin="animation"
+        ></a-entity>
+        <a-entity
+          id="kuudeimos"
+          visible="false"
+          position="0 0 0"
+          scale="1 1 1"
+          gltf-model="#deimos"
+          mixin="animation"
+          animationhandler
+          gesture-handler
+          light="type: ambient; color: #fff; intensity: 3;"
+        ></a-entity>
+      </a-marker>
+      <!-- Camera -->
+      <a-entity camera smooth="true"></a-entity>
+    </a-scene>
+  </body>
 </html>
